@@ -50,16 +50,16 @@
           </div>
         </div>
          <button class="ui primary button" type="submit" >
-            Sign Up
+            Login
           </button>
       </div>
       </form>
     </div>
     <div class="middle aligned column">
-      <div class="ui big button">
+      <a href="{{route('freelancer_register')}}"><div class="ui big button">
         <i class="signup icon"></i>
-        <a href="{{route('freelancer_register')}}">Sign Up</a>
-      </div>
+        Sign Up
+      </div></a>
     </div>
   </div>
   <div class="ui vertical divider">

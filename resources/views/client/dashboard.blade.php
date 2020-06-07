@@ -18,6 +18,12 @@
  <a class="item">
     {{ Auth::user()->name }}
   </a>
+  <a class="item" href="{{ route('client_postjob')}}">
+    Post Job
+  </a>
+  <a class="item" href="{{ route('client_request')}}">
+    Requests
+  </a>
   <a class="item" href="/{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">

@@ -3,6 +3,8 @@
 <head>
 	<title></title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </head>
@@ -11,6 +13,9 @@
 	<!-- navbar -->
 	<div class="ui inverted top fixed menu">
 
+		<a class="item" href="{{ route('freelancer_dashboard') }}">
+				Home
+			</a>
 		<div class="item">
 			<div class="ui icon input">
 				<input type="text" placeholder="Search...">
@@ -20,7 +25,7 @@
 		<div class="right menu">
 
 			<a class="item">
-				Post Job
+				
 			</a>
 
 			<a class="item" href="/{{ route('logout') }}"
@@ -80,6 +85,26 @@
 				   @foreach($cat as $cat1)
 					<h3>{{$cat1->title}}&nbsp&nbsp&nbsp&nbsp&nbsp<i class="edit icon" id="category"></i></h3>
 					 @endforeach
+					@else
+					 <button class="ui primary button" id="category">
+						Enter Category
+					 </button>
+				@endisset
+
+				<h2 class="ui header">Skills</h2>
+				@isset($user->c_id)
+
+				   @isset($skills->freelancer_id)
+					<h3>
+					@foreach($sk as $skill)
+						<a class="ui black label">{{$skill->title}}</a>
+					@endforeach
+						&nbsp&nbsp&nbsp&nbsp&nbsp<i class="edit icon" id="tags"></i></h3>
+					 @else
+					 <button class="ui primary button" id="tags">
+						Enter Skills
+					 </button>
+					 @endisset
 					@else
 					 <button class="ui primary button" id="category">
 						Enter Category
@@ -184,10 +209,45 @@
 			<div class="ui form">
 				<div class="field">
 					<label>Category </label>
+					@isset($user->c_id)
+					<p> Updating the category will remove all your skills.</p>
 					<select class="ui dropdown" name="cat">
 					  @foreach($category as $categorys)
                         <option value="{{$categorys->id}}">{{$categorys->title}}</option>
                         @endforeach
+					</select>
+					@else
+						
+					<select class="ui dropdown" name="cat">
+					  @foreach($category as $categorys)
+                        <option value="{{$categorys->id}}">{{$categorys->title}}</option>
+                        @endforeach
+					</select>	
+					@endisset
+				</div>
+				<button class="ui primary button" type="submit">
+					Save
+				</button>
+			</div>
+		</form>
+	</div>  
+</div>
+
+<div class="ui modal tags">
+	<i class="close icon"></i>
+	<div class="ui segment">
+		<h2 class="ui right floated header">Select tags</h2>
+		<div class="ui clearing divider"></div>
+		<form  method="POST" action="{{ route('freelancer_tag')}}">
+			{{csrf_field()}}
+		<input type="hidden" id="fid"name="fid" value="{{Auth::user()->id}}" readonly> 
+			<div class="ui form">
+				<div class="field">
+					<label>Category </label>
+					<select multiple="multiple" name="tag[]" class="ui fluid search dropdown">
+						@foreach($tag as $tags)
+						<option value="{{$tags->id}}"> {{ $tags->title}}</option>
+						@endforeach
 					</select>		
 				</div>
 				<button class="ui primary button" type="submit">
@@ -231,6 +291,20 @@
 			closable: true
 		});
 	});
+	$(function(){
+		$("#tags").click(function(){
+			$(".tags").modal('show');
+		});
+		$(".tags").modal({
+			closable: true
+		});
+	});
+
+$('.ui.search.dropdown')
+  .dropdown({
+  })
+;
+
 </script>
 </body>
 </html>

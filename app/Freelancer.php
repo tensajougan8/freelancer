@@ -19,4 +19,9 @@ class Freelancer extends Authenticate
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function tag()
+    {
+    	return $this->belongsToMany(Category::class,'freelancer_tags');
+    }
 }

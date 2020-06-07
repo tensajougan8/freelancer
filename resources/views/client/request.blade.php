@@ -74,72 +74,40 @@
     <div class="ten wide column">
       
    
-@if(is_null($freelancer->c_id))
+
+     @isset($data->fname)
      
-     <div class="ui warning message">
-        <i class="close icon"></i>
-        <div class="header">
-          Please fill details to get better job searching
-          <br>
-          <a href = "{{route('freelancer_profile')}}"><button class="ui primary button" >Fill Details</button></a>
-        </div>
-        </div>
-        @foreach($job as $data)
+       @foreach($data as $req)
           <div class="ui raised container segment">
-            <h2 class="ui header">{{$data->job_title}}</h2>
-            <p>{{$data->about}}</p>
-            <p><b>Amount:</b>{{$data->budget}}</p>
+            <h2 class="ui header">{{$req->fname}} {{$req->lname}}</h2>
             <table>
               <tr>
-            <form method="POST" action="{{ route('freelancer_apply')}}">
+            <form method="POST" action="{{ route('client_requestaccept')}}">
               {{csrf_field()}}
-              <input type="hidden" id="fid"name="fid" value="{{Auth::user()->id}}" readonly>
-              <input type="hidden" id="jid"name="jid" value="{{$data->id}}" readonly>
-              <input type="hidden" id="req"name="req" value="0" readonly>
-              <button class="ui right blue button" type="submit">Apply</button>
+              <input type="hidden" id="cid"name="cid" value="{{Auth::user()->id}}" readonly>
+              <input type="hidden" id="jid"name="jid" value="{{$req->project_id}}" readonly>
+              <input type="hidden" id="fid"name="fid" value="{{$req->freelancer_id}}" readonly>
+              <button class="ui right blue button" type="submit">Accept</button>
             </form>
-            <form method="POST" action="{{ route('freelancer_viewjob')}}">
-              {{csrf_field()}}
-              <input type="hidden" id="fid"name="fid" value="{{Auth::user()->id}}" readonly>
-              <input type="hidden" id="jid"name="jid" value="{{$data->id}}" readonly>
-              <input type="hidden" id="req"name="req" value="0" readonly>
-              <button class="ui right green button" type="submit">View</button>
+            <form method="POST" action="{{ route('client_requestreject')}}">
+              {{csrf_field()}}             
+              <input type="hidden" id="jid"name="jid" value="{{$req->project_id}}" readonly>
+              <input type="hidden" id="fid"name="fid" value="{{$req->freelancer_id}}" readonly>              
+              <button class="ui right red button" type="submit">Reject</button>
             </form>
-            </tr>
-          </table>
-          </div>  
-           
-       @endforeach
-    
-      @else
+          </tr>
+        </table>
+
+        </div>  
+          @endforeach
+        @else
+        <div class="ui compact message">
+        <p>You have no requests</p>
+         </div>
+        @endisset
+
      
-         @foreach($job as $data)
-          <div class="ui raised container segment">
-            <h2 class="ui header">{{$data->job_title}}</h2>
-            <p>{{$data->about}}</p>
-              <p><b>Amount:</b>{{$data->budget}}</p>
-              <table>
-            <tr>
-            <form method="POST" action="{{ route('freelancer_apply')}}">
-              {{csrf_field()}}
-              <input type="hidden" id="fid"name="fid" value="{{Auth::user()->id}}" readonly>
-              <input type="hidden" id="jid"name="jid" value="{{$data->id}}" readonly>
-              <input type="hidden" id="req"name="req" value="0" readonly>
-              <button class="ui right blue button" type="submit">Apply</button>
-            </form>
-            <form method="POST" action="{{ route('freelancer_viewjob')}}">
-              {{csrf_field()}}
-              <input type="hidden" id="fid"name="fid" value="{{Auth::user()->id}}" readonly>
-              <input type="hidden" id="jid"name="jid" value="{{$data->id}}" readonly>
-              <input type="hidden" id="req"name="req" value="0" readonly>
-              <button class="ui right green button" type="submit">View</button>
-            </form>
-            </tr>
-          </table>
-          </div>  
-          
-       @endforeach
-@endif   
+ 
 
     <div class="three wide column">
       
@@ -150,7 +118,7 @@
   <br>
   <br>
   <div class="ui inverted vertical footer segment form-page">
-    <div class="ui fluid container">{{$freelancer->c_id}}
+    <div class="ui fluid container">
       Travel Match 2015. All Rights Reserved
       <p>Te eum doming eirmod, nominati pertinacia argumentum ad his. Ex eam alia facete scriptorem, est autem aliquip detraxit at. Usu ocurreret referrentur at, cu epicurei appellantur vix. Cum ea laoreet recteque electram, eos choro alterum definiebas in. Vim dolorum definiebas an. Mei ex natum rebum iisque.</p>
       <p>Audiam quaerendum eu sea, pro omittam definiebas ex. Te est latine definitiones. Quot wisi nulla ex duo. Vis sint solet expetenda ne, his te phaedrum referrentur consectetuer. Id vix fabulas oporteat, ei quo vide phaedrum, vim vivendum maiestatis in.</p>
